@@ -7,8 +7,8 @@ This is just a toy GPU ray-tracer, which is basically a implementation of
 Peter Shirley's [Ray Tracing in a Weekend](https://github.com/petershirley/raytracinginoneweekend),
 using my CUDA runtime compilation tools.
 
-Ray-tracing Peter Shirley's "spheres" scene in 800x600 resolution, 1000 rays/pixels:
-![alt text](docs/scene1_1000.tga)
+Ray-tracing Peter Shirley's "spheres" scene in 900x600 resolution, 1000 rays/pixels:
+![alt text](docs/scene1_1000.png)
 
 This project depends on the first 2 of the series:
 
