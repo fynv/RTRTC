@@ -147,17 +147,10 @@ RayTracer::RayTracer(DVImage& target, int rays_per_pixels)
 	m_dv_ray_tracer = new DVRayTracer(target.width(), target.height(), rays_per_pixels);
 	m_rays_per_pixels = rays_per_pixels;
 	m_acc = new DVImage("fvec3", target.width(), target.height());
-
-	m_sky = new Functor({}, { "dir" },
-		"        float t = 0.5f*dir.y + 1.0f;\n"
-		"        fvec3 ret = { 1.0f - 0.5f*t, 1.0f - 0.3f*t, 1.0f };\n"
-		"        return ret;\n"
-	);
 }
 
 RayTracer::~RayTracer()
 {
-	delete m_sky;
 	delete m_acc;
 	delete m_dv_ray_tracer;
 }
@@ -177,7 +170,8 @@ bool RayTracer::trace(DeviceViewable& hitable, Functor* sky_box)
 			"    raytracer.trace_pix(obj, sky, acc, x,y);\n"
 		);
 
-		if (sky_box == nullptr) sky_box = m_sky;
+		static Functor default_sky("DefaultSky");
+		if (sky_box == nullptr) sky_box = &default_sky;
 
 		const DeviceViewable* args[] = { m_acc, m_dv_ray_tracer, &hitable, sky_box};
 		unsigned int block_x = (m_acc->width() + 15) / 16;

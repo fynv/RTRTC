@@ -23,9 +23,6 @@ private:
 	DVImage* m_acc;
 	int m_rays_per_pixels;
 	DVRayTracer* m_dv_ray_tracer;
-
-	Functor* m_sky;
-
 };
 
 #endif

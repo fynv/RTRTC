@@ -214,6 +214,16 @@ __device__ inline float schlick(float cosine, float ref_idx)
 	return r0 + (1.0f - r0)*powf(1.0f - cosine, 5.0f);
 }
 
+struct DefaultSky
+{
+	__device__ inline fvec3 operator()(const fvec3& dir)
+	{
+        float t = 0.5f*dir.y + 1.0f;
+        fvec3 ret = { 1.0f - 0.5f*t, 1.0f - 0.3f*t, 1.0f };
+        return ret;
+	}
+};
+
 #endif
 
 
