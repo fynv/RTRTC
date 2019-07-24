@@ -2,12 +2,13 @@
 #include "initialize.h"
 #include "DVSphere.h"
 
-DVSphere::DVSphere(fvec3 center, float radius, Material material)
+DVSphere::DVSphere(fvec3 center, float radius, Material material, fvec3 velocity)
 {
 	rtrtc_init();
 	m_center = center;
 	m_radius = radius;
 	m_material = material;
+	m_velocity = velocity;
 }
 
 std::string DVSphere::name_view_cls() const
@@ -18,7 +19,7 @@ std::string DVSphere::name_view_cls() const
 ViewBuf DVSphere::view() const
 {
 	ViewBuf ret(sizeof(Sphere));
-	*(Sphere*)ret.data() = { m_center, m_radius, m_material };
+	*(Sphere*)ret.data() = { m_center, m_velocity, m_radius, m_material };
 	return ret;
 }
 

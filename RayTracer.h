@@ -16,6 +16,8 @@ public:
 	~RayTracer();
 
 	void set_camera(fvec3 lookfrom, fvec3 lookat, fvec3 vup, float vfov, float aperture = 0.0f, float focus_dist = 1.0f);
+	void set_shutter(float t0, float t1);
+
 	bool trace(DeviceViewable& hitable, Functor* sky_box = nullptr);
 
 private:

@@ -73,8 +73,9 @@ static PyObject* n_dvsphere_create(PyObject* self, PyObject* args)
 	PyObject* py_mat_ref_idx = PyDict_GetItemString(py_material, "ref_idx");
 	if (py_mat_ref_idx != nullptr)
 		material.ref_idx = (float)PyFloat_AsDouble(py_mat_ref_idx);
-	
-	return PyLong_FromVoidPtr(new DVSphere(center, radius, material));
+
+	fvec3 velocity = PyTuple_As_FVec3(PyTuple_GetItem(args, 3));	
+	return PyLong_FromVoidPtr(new DVSphere(center, radius, material, velocity));
 }
 
 static PyObject* n_dv_multisphres_create(PyObject* self, PyObject* args)
@@ -114,6 +115,15 @@ static PyObject* n_raytracer_set_camera(PyObject* self, PyObject* args)
 	return PyLong_FromLong(0);
 }
 
+static PyObject* n_raytracer_set_shutter(PyObject* self, PyObject* args)
+{
+	RayTracer* raytracer = (RayTracer*)PyLong_AsVoidPtr(PyTuple_GetItem(args, 0));
+	float t0 = (float)PyFloat_AsDouble(PyTuple_GetItem(args, 1));
+	float t1 = (float)PyFloat_AsDouble(PyTuple_GetItem(args, 2));
+	raytracer->set_shutter(t0, t1);
+	return PyLong_FromLong(0);
+}
+
 static PyObject* n_raytracer_trace(PyObject* self, PyObject* args)
 {
 	RayTracer* raytracer = (RayTracer*)PyLong_AsVoidPtr(PyTuple_GetItem(args, 0));
@@ -134,6 +144,7 @@ static PyMethodDef s_Methods[] = {
 	{ "n_raytracer_create", n_raytracer_create, METH_VARARGS, "" },
 	{ "n_raytracer_destroy", n_raytracer_destroy, METH_VARARGS, "" },
 	{ "n_raytracer_set_camera", n_raytracer_set_camera, METH_VARARGS, "" },
+	{ "n_raytracer_set_shutter", n_raytracer_set_shutter, METH_VARARGS, "" },
 	{ "n_raytracer_trace", n_raytracer_trace, METH_VARARGS, "" },
 	0
 };
@@ -144,4 +155,3 @@ PyMODINIT_FUNC PyInit_PyRTRTC(void)
 {
 	return PyModule_Create(&cModPyDem);
 }
-

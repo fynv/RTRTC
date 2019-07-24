@@ -25,7 +25,7 @@ for a in range(-11, 11):
 		if dis<1.0:
 			continue
 		if choose_mat<0.75:
-			spheres.append(rtrtc.DVSphere (center, 0.2, { 'type': 'lamertian', 'color': (random()*random(), random()*random(), random()*random())}))
+			spheres.append(rtrtc.DVSphere (center, 0.2, { 'type': 'lamertian', 'color': (random()*random(), random()*random(), random()*random())}, (0.0, 0.5*random(), 0.0) ))
 		elif choose_mat<0.90:
 			spheres.append(rtrtc.DVSphere (center, 0.2, { 'type': 'metal', 'color': (0.5*(1.0+random()), 0.5*(1.0+random()), 0.5*(1.0+random())), 'fuzz': 0.0}))
 		else:
@@ -44,8 +44,9 @@ sky = trtc.Functor({}, ['dir'],
 	''')
 
 raytracer = rtrtc.RayTracer(img)
-raytracer.set_camera( (15.0, 3.0, 3.0), (0.0, 0.0, 0.0), (0.0, 1.0, 0.0), 20.0, 0.2, 12.0);
-raytracer.trace(mul_sph, sky);
+raytracer.set_camera( (15.0, 3.0, 3.0), (0.0, 0.0, 0.0), (0.0, 1.0, 0.0), 20.0, 0.2, 12.0)
+raytracer.set_shutter(0.0, 1.0)
+raytracer.trace(mul_sph, sky)
 
 himg = img.to_host()
 himg.save("scene1.tga")

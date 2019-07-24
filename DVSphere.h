@@ -9,7 +9,7 @@
 class RT_RTC_API DVSphere : public DeviceViewable
 {
 public:
-	DVSphere(fvec3 center, float radius, Material material = { Material::lamertian, {0.5f, 0.5f, 0.5f} });
+	DVSphere(fvec3 center, float radius, Material material = { Material::lamertian, {0.5f, 0.5f, 0.5f} }, fvec3 velocity = { 0.0f, 0.0f, 0.0f });
 
 	virtual std::string name_view_cls() const;
 	virtual ViewBuf view() const;
@@ -18,6 +18,7 @@ private:
 	fvec3 m_center;
 	float m_radius;
 	Material m_material;
+	fvec3 m_velocity;
 
 };
 

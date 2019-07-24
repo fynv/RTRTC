@@ -137,6 +137,7 @@ struct Ray
 {
 	fvec3 origin;
 	fvec3 direction;
+	float time;
 
 #ifdef DEVICE_ONLY
 	__device__ inline fvec3 point_at_parameter(float t) const
@@ -236,6 +237,8 @@ struct RayTracerView
 	fvec3 ux;
 	fvec3 uy;
 	float lens_radius;
+	float t0;
+	float t1;
 
 #ifdef DEVICE_ONLY
 	template<class _TObj, class _TSky>
@@ -261,6 +264,8 @@ struct RayTracerView
 
 		r.direction = pos_pix - r.origin;
 		r.direction = d_normalize(r.direction);
+		r.time = t0;
+		if (t1!=t0) r.time+=(t1-t0)*rstate.rand01();
 
 #if 0
 		fvec3 f_col;
@@ -382,13 +387,15 @@ struct RayTracerView
 struct Sphere
 {
 	fvec3 center;
+	fvec3 velocity;
 	float radius;
 	Material material;
 
 #ifdef DEVICE_ONLY
 	__device__ inline bool hit(const Ray& r, HitRecord& record)
 	{
-		fvec3 oc = center - r.origin;
+		fvec3 center_now = center + velocity * r.time;
+		fvec3 oc = center_now - r.origin;
 		float proj = d_dot(oc, r.direction);
 		float discriminant = radius*radius - (d_sqrlen(oc) - proj*proj);
 		if (discriminant < 0.0f) return false;
@@ -399,7 +406,7 @@ struct Sphere
 		if (record.t > 0.0001f)
 		{
 			record.point = r.point_at_parameter(record.t);
-			fvec3 d = record.point - center;
+			fvec3 d = record.point - center_now;
 			record.normal = d_normalize(d);
 			record.material.ref_idx = 1.0f / material.ref_idx;
 		}
@@ -409,7 +416,7 @@ struct Sphere
 			if (record.t > 0.0001f)
 			{
 				record.point = r.point_at_parameter(record.t);
-				fvec3 d = center - record.point;
+				fvec3 d = center_now - record.point;
 				record.normal = d_normalize(d);
 			}
 			else return false;

@@ -14,8 +14,8 @@ class DVImage(trtc.DeviceViewable):
 		return Image.frombytes('RGB', self.size(), data)
 
 class DVSphere(trtc.DeviceViewable):
-	def __init__(self, center, radius, material={"type": "lamertian", "color":(0.5, 0.5, 0.5)}):
-		self.m_cptr = native.n_dvsphere_create(center, radius, material)
+	def __init__(self, center, radius, material={"type": "lamertian", "color":(0.5, 0.5, 0.5)}, velocity = (0.0, 0.0, 0.0)):
+		self.m_cptr = native.n_dvsphere_create(center, radius, material, velocity)
 
 class DVMultiSpheres(trtc.DeviceViewable):
 	def __init__(self, spheres):
@@ -33,6 +33,9 @@ class RayTracer:
 
 	def set_camera(self, lookfrom, lookat, vup, vfov, aperture = 0.0, focus_dist = 1.0):
 		native.n_raytracer_set_camera(self.m_cptr, lookfrom, lookat, vup, vfov, aperture, focus_dist)
+
+	def set_shutter(self, t0, t1):
+		native.n_raytracer_set_shutter(self.m_cptr, t0, t1)
 
 	def trace(self, hitable, skybox = None):
 		cptr_skybox = None

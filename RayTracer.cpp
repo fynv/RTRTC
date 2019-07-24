@@ -80,6 +80,8 @@ public:
 		m_image_width = image_width;
 		m_image_height = image_height;
 		m_rays_per_pixels = rays_per_pixels;
+		m_t0 = 0.0f;
+		m_t1 = 0.0f;
 
 		set_camera({ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f, 1.0f, 0.0f }, 90.0f, 0.0f, 1.0f);
 	}
@@ -106,6 +108,12 @@ public:
 
 	}
 
+	void set_shutter(float t0, float t1)
+	{
+		m_t0 = t0;
+		m_t1 = t1;
+	}
+
 	virtual std::string name_view_cls() const
 	{
 		return "RayTracerView";
@@ -122,6 +130,8 @@ public:
 		pview->ux = m_ux;
 		pview->uy = m_uy;
 		pview->lens_radius = m_lens_radius;
+		pview->t0 = m_t0;
+		pview->t1 = m_t1;
 		return buf;
 	}
 
@@ -137,6 +147,7 @@ private:
 	fvec3 m_ux;
 	fvec3 m_uy;
 	float m_lens_radius;
+	float m_t0, m_t1;
 
 };
 
@@ -158,6 +169,11 @@ RayTracer::~RayTracer()
 void RayTracer::set_camera(fvec3 lookfrom, fvec3 lookat, fvec3 vup, float vfov, float aperture, float focus_dist)
 {
 	m_dv_ray_tracer->set_camera(lookfrom, lookat, vup, vfov, aperture, focus_dist);
+}
+
+void RayTracer::set_shutter(float t0, float t1)
+{
+	m_dv_ray_tracer->set_shutter(t0, t1);
 }
 
 bool RayTracer::trace(DeviceViewable& hitable, Functor* sky_box)
