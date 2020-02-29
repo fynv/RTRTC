@@ -413,7 +413,7 @@ struct Sphere
 		else
 		{
 			record.t = proj + sqrtf(discriminant);
-			if (record.t > 0.0001f)
+			if (record.t > 0.001f)
 			{
 				record.point = r.point_at_parameter(record.t);
 				fvec3 d = center_now - record.point;
