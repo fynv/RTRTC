@@ -36,7 +36,6 @@ public:
 	virtual bool is_writable() const { return true; }
 
 	void to_host(void* hdata) const;
-	virtual std::string name_view_cls() const;
 	virtual ViewBuf view() const;
 
 private:

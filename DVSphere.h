@@ -10,8 +10,6 @@ class RT_RTC_API DVSphere : public DeviceViewable
 {
 public:
 	DVSphere(fvec3 center, float radius, Material material = { Material::lamertian, {0.5f, 0.5f, 0.5f} }, fvec3 velocity = { 0.0f, 0.0f, 0.0f });
-
-	virtual std::string name_view_cls() const;
 	virtual ViewBuf view() const;
 
 private:
@@ -26,8 +24,6 @@ class RT_RTC_API DVMultiSpheres : public DeviceViewable
 {
 public:
 	DVMultiSpheres(const std::vector<const DVSphere*>& spheres);
-
-	virtual std::string name_view_cls() const;
 	virtual ViewBuf view() const;
 
 private:

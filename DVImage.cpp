@@ -25,6 +25,8 @@ DVImage::DVImage(const char* elem_cls, int width, int height, void* hdata)
 		cuMemcpyHtoD(dptr, hdata, m_elem_size*m_width*m_height);
 	else
 		cuMemsetD8(dptr, 0, m_elem_size*m_width*m_height);
+
+	m_name_view_cls = std::string("ImageView<") + m_elem_cls + ">";
 }
 
 DVImage::~DVImage()
@@ -36,12 +38,6 @@ DVImage::~DVImage()
 void DVImage::to_host(void* hdata) const
 {
 	cuMemcpyDtoH(hdata, (CUdeviceptr)m_data, m_elem_size*m_width*m_height);
-}
-
-
-std::string DVImage::name_view_cls() const
-{
-	return std::string("ImageView<") + m_elem_cls + ">";
 }
 
 

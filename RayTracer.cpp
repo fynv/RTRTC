@@ -84,6 +84,8 @@ public:
 		m_t1 = 0.0f;
 
 		set_camera({ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, -1.0f }, { 0.0f, 1.0f, 0.0f }, 90.0f, 0.0f, 1.0f);
+
+		m_name_view_cls = "RayTracerView";
 	}
 
 	void set_camera(fvec3 lookfrom, fvec3 lookat, fvec3 vup, float vfov, float aperture, float focus_dist)
@@ -112,11 +114,6 @@ public:
 	{
 		m_t0 = t0;
 		m_t1 = t1;
-	}
-
-	virtual std::string name_view_cls() const
-	{
-		return "RayTracerView";
 	}
 
 	virtual ViewBuf view() const

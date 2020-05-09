@@ -9,12 +9,9 @@ DVSphere::DVSphere(fvec3 center, float radius, Material material, fvec3 velocity
 	m_radius = radius;
 	m_material = material;
 	m_velocity = velocity;
+	m_name_view_cls = "Sphere";
 }
 
-std::string DVSphere::name_view_cls() const
-{
-	return "Sphere";
-}
 
 ViewBuf DVSphere::view() const
 {
@@ -39,11 +36,7 @@ DVMultiSpheres::DVMultiSpheres(const std::vector<const DVSphere*>& spheres)
 	: m_spheres("Sphere", spheres.size(), VecSphereView(spheres).data())
 {
 	rtrtc_init();
-}
-
-std::string DVMultiSpheres::name_view_cls() const
-{
-	return "MultiSpheres";
+	m_name_view_cls = "MultiSpheres";
 }
 
 ViewBuf DVMultiSpheres::view() const
