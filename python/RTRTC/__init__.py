@@ -8,7 +8,8 @@ from cffi import FFI
 
 ffi  = FFI()
 
-ffi.cdef("""    
+ffi.cdef("""
+int n_rtrtc_try_init();
 void* n_dvimage_create(int width, int height);
 int n_dvimage_width(void* cptr);
 int n_dvimage_height(void* cptr);
@@ -34,6 +35,9 @@ elif os.name == "posix":
 path_rtrtc = os.path.dirname(__file__)+"/"+fn_rtrtc
 
 native = ffi.dlopen(path_rtrtc)
+
+if native.n_rtrtc_try_init()==0:
+    raise ImportError('cannot import RTRTC')
 
 class DVImage(trtc.DeviceViewable):
     def __init__(self, width, height):

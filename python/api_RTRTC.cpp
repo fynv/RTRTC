@@ -6,6 +6,7 @@
 
 extern "C"
 {
+	PY_RTRTC_API int n_rtrtc_try_init();
 	PY_RTRTC_API void* n_dvimage_create(int width, int height);
 	PY_RTRTC_API int n_dvimage_width(void* cptr);
 	PY_RTRTC_API int n_dvimage_height(void* cptr);
@@ -25,11 +26,17 @@ extern "C"
 
 #include <stdio.h>
 #include <string.h>
+#include "initialize.h"
 #include "DVImage.h"
 #include "rtrtc_built_in.h"
 #include "DVSphere.h"
 #include "RayTracer.h"
 #include "functor.h"
+
+int n_rtrtc_try_init()
+{
+	return RTRTC_Try_Init() ? 1 : 0;
+}
 
 void* n_dvimage_create(int width, int height)
 {
