@@ -61,12 +61,12 @@ if (WIN32)
 link_directories(../install/lib)
 else()
 add_library(PyThrustRTC SHARED IMPORTED)
-set_property(TARGET PyThrustRTC PROPERTY IMPORTED_LOCATION ../install/test_python/libPyThrustRTC.so)
+set_property(TARGET PyThrustRTC PROPERTY IMPORTED_LOCATION ../install/test_python/ThrustRTC/libPyThrustRTC.so)
 add_library(PyCURandRTC SHARED IMPORTED)
-set_property(TARGET PyCURandRTC PROPERTY IMPORTED_LOCATION ../install/test_python/libPyCURandRTC.so)
+set_property(TARGET PyCURandRTC PROPERTY IMPORTED_LOCATION ../install/test_python/CURandRTC/libPyCURandRTC.so)
 endif()
 
-SET(CMAKE_INSTALL_RPATH $ORIGIN/.:.)
+SET(CMAKE_INSTALL_RPATH $ORIGIN/../ThrustRTC:$ORIGIN/../CURandRTC:.)
 
 add_library(PyRTRTC SHARED ${LIB_SOURCES} ${LIB_HEADERS} ${INTERNAL_HEADERS} ${SRC})
 
@@ -88,22 +88,17 @@ install(FILES ${LIB_HEADERS} DESTINATION include)
 
 if (WIN32) 
 install(TARGETS PyRTRTC 
-		RUNTIME DESTINATION test_python
+		RUNTIME DESTINATION test_python/RTRTC
 		LIBRARY DESTINATION lib
 		ARCHIVE DESTINATION lib 
 		)
 else()
-install(TARGETS PyRTRTC DESTINATION test_python)
+install(TARGETS PyRTRTC DESTINATION test_python/RTRTC)
 endif()
 
 
-set(PYTHON
-	RTRTC.py
-	setup.py
-	README.md
-)
-
-install(FILES ${PYTHON} DESTINATION test_python)
+install(FILES RTRTC/__init__.py DESTINATION test_python/RTRTC)
+install(FILES setup.py README.md DESTINATION test_python)
 
 set(PYTHON_TEST
 	test/test_rtrtc_scene0.py

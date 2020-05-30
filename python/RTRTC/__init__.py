@@ -1,6 +1,9 @@
 import os
 import sys
 import site
+import ThrustRTC as trtc
+import CURandRTC as rndrtc
+from PIL import Image
 from cffi import FFI
 
 ffi  = FFI()
@@ -28,20 +31,9 @@ if os.name == 'nt':
 elif os.name == "posix":
     fn_rtrtc = 'libPyRTRTC.so'
 
-if os.name == 'nt':
-    os.environ["PATH"] += ";"+sys.prefix+"/Fei/"
-path_rtrtc = sys.prefix+"/Fei/"+fn_rtrtc
-if not os.path.isfile(path_rtrtc):
-    if os.name == 'nt':
-        os.environ["PATH"] += ";"+site.USER_BASE+"/Fei/"
-    path_rtrtc = site.USER_BASE+"/Fei/"+fn_rtrtc
-    if not os.path.isfile(path_rtrtc):
-        path_rtrtc = os.path.dirname(__file__)+"/"+fn_rtrtc
+path_rtrtc = os.path.dirname(__file__)+"/"+fn_rtrtc
 
 native = ffi.dlopen(path_rtrtc)
-
-import ThrustRTC as trtc
-from PIL import Image
 
 class DVImage(trtc.DeviceViewable):
     def __init__(self, width, height):

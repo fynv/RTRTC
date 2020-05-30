@@ -10,7 +10,7 @@ with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
 	name = 'RTRTC',
-	version = '0.1.2',
+	version = '0.1.4',
 	description = 'Toy ray-tracer based on ThrustRTC on CURandRTC',
 	long_description=long_description,
 	long_description_content_type='text/markdown',  
@@ -19,8 +19,8 @@ setup(
 	author='Fei Yang',
 	author_email='hyangfeih@gmail.com',
 	keywords='GPU CUDA RayTracing',
-	py_modules=['RTRTC'],
-	data_files=[("Fei", ["PyRTRTC.dll", "libPyRTRTC.so"])],
+	packages=['RTRTC'],
+	package_data = { 'RTRTC': ['*.dll', '*.so']},
 	install_requires = ['CURandRTC', 'ThrustRTC', 'numpy', 'pillow']
 )
 
