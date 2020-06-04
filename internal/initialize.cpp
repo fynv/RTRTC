@@ -26,5 +26,6 @@ bool rtrtc_init(bool istrying)
 
 bool RTRTC_Try_Init()
 {
+	if (!CURandRTC_Try_Init()) return false;
 	return rtrtc_init(true);
 }
